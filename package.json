@@ -1,5 +1,5 @@
 {
-  "name": "fashionfusion",
+  "name": "gwh_backend",
   "version": "1.0.0",
   "main": "server.ts",
   "scripts": {
@@ -19,7 +19,7 @@
     "express-oauth2-jwt-bearer": "^1.6.0",
     "generate-unique-id": "^2.0.3",
     "nodemailer": "^6.9.9",
-    "stripe": "^14.17.0",
+    "stripe": "^14.20.0",
     "valibot": "^0.28.1"
   },
   "devDependencies": {

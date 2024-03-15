@@ -4,7 +4,7 @@ import { parse } from "valibot";
 import { contactSchema } from "../validationSchema/contact";
 import { HttpError } from "../models/http-error";
 import { prisma } from "../prisma/prisma";
-import { responseMessage } from "../email_template/resposeMessage";
+import { responseMessage } from "../email_template/responseMessage";
 
 export const contactHandler = async (
   req: Request,

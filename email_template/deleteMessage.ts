@@ -1,4 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+export const deleteMessage = (
+  name: string
+) => `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:v="urn:schemas-microsoft-com:vml"
@@ -72,14 +74,14 @@
     <style type="text/css" emogrify="no">
       @media (max-width: 600px) {
         .gmx-killpill {
-          content: " \03D1";
+          content: '\x03';
         }
       }
     </style>
     <style type="text/css" emogrify="no">
       @media (max-width: 600px) {
         .gmx-killpill {
-          content: " \03D1";
+          content:  '\x03';
         }
         .r0-o {
           border-style: solid !important;
@@ -715,7 +717,7 @@
                                         word-break: break-word;
                                       "
                                     >
-                                      Thank you ${},
+                                      Thank you ${name},
                                     </h1>
                                   </div>
                                 </td>
@@ -767,7 +769,9 @@
                                             Apple Color Emoji, Segoe UI Emoji,
                                             Segoe UI Symbol, Noto Color Emoji;
                                         "
-                                        >Thanks for reaching out. This website
+                                        >
+                                        Thanks for reaching out. Your account will shortly be deleted from GWH. <br />
+                                        This website
                                         is part of my demo projects series for
                                         my portfolio website</span
                                       >
@@ -1077,7 +1081,7 @@
                                       "
                                     >
                                       <a
-                                        href="mailto:sa2283493@gmail.com?subject=sa2283493%40gmail.com"
+                                        href="mailto:${process.env.PERSONAL_EMAIL}?subject=reply to response"
                                         target="_blank"
                                         style="
                                           color: #3075a6;
@@ -1108,4 +1112,4 @@
       </tr>
     </table>
   </body>
-</html>
+</html>`;

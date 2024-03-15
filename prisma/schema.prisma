@@ -34,10 +34,10 @@ model Order {
   zip              String
   area             String
   address          String
-  status           String
+  status           String   @default("pending")
   shippingMethod   String
   payment          String
-  onlineMethod     String?
+  paymentStatus    String   @default("pending")
   instructions     String?
   price            Float
   productList      Json
@@ -64,7 +64,7 @@ model Contact {
 }
 
 model DeleteUser {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  auth    String
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  auth        String
   requestDate DateTime @default(now())
 }

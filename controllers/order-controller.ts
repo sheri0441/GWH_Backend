@@ -4,13 +4,19 @@ import { prisma } from "../prisma/prisma";
 import { Product } from "../interfaces/Product";
 import { orderForm } from "../validationSchema/orderForm";
 import { HttpError } from "../models/http-error";
-import generateUniqueId from "generate-unique-id";
-import { Prisma } from "@prisma/client";
-import { emailSchema } from "../validationSchema/email";
 import { sendMail } from "../util/nodemailer";
 import { order_confirmation } from "../email_template/order_confirmation";
 import { OrderProduct } from "../interfaces/OrderProduct";
+import { remove_repeated_products } from "../util/remove_repeated_products";
+import { reduce_data_to_orderProducts } from "../util/reduce_data_to_orderProducts";
+import { UserPrisma } from "../interfaces/UserPrisma";
+import { add_order_to_database } from "../util/add_order_to_database";
+import { calculate_orderProducts_total_price } from "../util/calculate_orderProducts_total_price";
+import { find_user } from "../util/find_user";
+import { get_productList_id } from "../util/get_productList_id";
+import Stripe from "stripe";
 import { CartItem } from "../interfaces/CartItem";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export const orderCashHandler = async (
   req: Request,
@@ -28,42 +34,11 @@ export const orderCashHandler = async (
     return;
   }
 
-  console.log(validBody);
+  const { email, productList } = validBody;
 
-  const {
-    name,
-    email,
-    city,
-    area,
-    address,
-    shipping,
-    payment,
-    onlineMethod,
-    instructions,
-    productList,
-    zip,
-  } = validBody;
+  const newProductList = remove_repeated_products(productList);
 
-  const remove_repeated_product = (list: CartItem[]) => {
-    let newList = [];
-    for (let i = 0; i > list.length; i++) {
-      //find the double product
-      //if you find remove them from the list
-      //add the double quantity to one of them and delete the other
-      const x = list.find((item) => item.productId === list[i].productId);
-      // if (x.length > 1) {
-      // }
-      // for(let e=0; e > list.length; e ++){
-
-      // }
-    }
-  };
-
-  let productIdArray = [];
-
-  for (let i = 0; i < productList.length; i++) {
-    productIdArray.push(productList[i].productId);
-  }
+  let productIdArray = get_productList_id(newProductList);
 
   if (productIdArray.length < 1) {
     next(new HttpError("Please add product to your order.", 400));
@@ -84,9 +59,12 @@ export const orderCashHandler = async (
     return;
   }
 
-  const numberOfProductsInOrder = productList.length;
+  const numberOfProductsInOrder = newProductList.length;
 
-  if (productInStockThatMatch.length !== numberOfProductsInOrder) {
+  const isForeignItemFound =
+    productInStockThatMatch.length !== numberOfProductsInOrder;
+
+  if (isForeignItemFound) {
     next(
       new HttpError(
         `Error in product ID. ${
@@ -98,13 +76,9 @@ export const orderCashHandler = async (
     return;
   }
 
-  let user;
+  let user: UserPrisma | null;
   try {
-    user = await prisma.user.findUnique({
-      where: {
-        email: email,
-      },
-    });
+    user = await find_user(email);
   } catch (error) {
     next(
       new HttpError("There is server internal issue related to email.", 400)
@@ -112,83 +86,37 @@ export const orderCashHandler = async (
     return;
   }
 
-  // if (payment.toLowerCase() !== "cash" && payment.toLowerCase() !== "card") {
-  //   next(new HttpError("Please provide valid payment method.", 400));
-  //   return;
-  // }
+  let orderProductList: OrderProduct[] = reduce_data_to_orderProducts(
+    productInStockThatMatch,
+    newProductList
+  );
 
-  // if (
-  //   payment === "card" &&
-  //   !(onlineMethod === "payoneer" || onlineMethod === "stripe")
-  // ) {
-  //   next(new HttpError("Please provide valid online payment method.", 400));
-  //   return;
-  // }
-
-  let orderProductList: OrderProduct[] = [];
-
-  for (const prod of productInStockThatMatch) {
-    for (let j = 0; j < productList.length; j++) {
-      if (prod.id === productList[j].productId) {
-        orderProductList.push({
-          title: prod.title,
-          image: prod.image,
-          quantity: productList[j].quantity,
-          price: prod.price,
-          category: prod.category,
-        });
-      }
-    }
-  }
-
-  let totalPrice = 0;
-
-  for (let i = 0; i < orderProductList.length; i++) {
-    totalPrice += orderProductList[i].price * orderProductList[i].quantity;
-  }
+  const totalPrice = calculate_orderProducts_total_price(orderProductList);
 
   let newOrder;
 
   try {
-    newOrder = await prisma.order.create({
-      data: {
-        orderNumber: generateUniqueId({
-          length: 5,
-        }),
-        email: email,
-        name: name,
-        city: city,
-        zip: zip,
-        area: area,
-        address: address,
-        status: "pending",
-        shippingMethod: shipping,
-        payment: payment,
-        onlineMethod: onlineMethod,
-        instructions: instructions,
-        price: totalPrice,
-        productList: JSON.stringify(orderProductList),
-        userID: user ? user.id : null,
-        isRegisteredUser: user ? true : false,
-      },
-    });
+    newOrder = await add_order_to_database(validBody, totalPrice, user);
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        next(new HttpError("There is some error, please try again.", 400));
-        return;
-      }
-    }
-    next(new HttpError("There is server internal issue.", 500));
+    next(
+      new HttpError(
+        "There is server internal issue related order. Please try again.",
+        500
+      )
+    );
     return;
   }
 
-  const mailText = `Dear ${newOrder.name}, your order has been received and will be processed as soon as possible. Your total bill is ${newOrder.price}`;
+  const mailText = `Dear ${
+    newOrder!.name
+  }, your order has been received and will be processed as soon as possible. Your total bill is ${
+    newOrder!.price
+  }`;
 
-  const mailHtml = order_confirmation(newOrder, orderProductList);
+  const mailHtml = order_confirmation(newOrder!, orderProductList);
 
   sendMail({
-    to: newOrder.email,
+    to: newOrder!.email,
     subject: "Order Confirmation",
     text: mailText,
     html: mailHtml,
@@ -204,7 +132,210 @@ export const orderCardHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {};
+) => {
+  const body = req.body;
+
+  let validBody;
+
+  try {
+    validBody = parse(orderForm, body);
+  } catch (error) {
+    next(new HttpError("Validation Error", 500));
+    return;
+  }
+
+  const { email, productList } = validBody;
+
+  const newProductList = remove_repeated_products(productList);
+
+  let productIdArray = get_productList_id(newProductList);
+
+  if (productIdArray.length < 1) {
+    next(new HttpError("Please add product to your order.", 400));
+    return;
+  }
+
+  let productInStockThatMatch: Product[] = [];
+
+  try {
+    productInStockThatMatch = await prisma.product.findMany({
+      where: {
+        id: { in: productIdArray },
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    next(new HttpError("Provide correct product with correct ID", 400));
+    return;
+  }
+
+  const numberOfProductsInOrder = newProductList.length;
+
+  const isForeignItemFound =
+    productInStockThatMatch.length !== numberOfProductsInOrder;
+
+  if (isForeignItemFound) {
+    next(
+      new HttpError(
+        `Error in product ID. ${
+          numberOfProductsInOrder - productInStockThatMatch.length
+        } product/s is/are unknown to us.`,
+        400
+      )
+    );
+    return;
+  }
+
+  let user: UserPrisma | null;
+  try {
+    user = await find_user(email);
+  } catch (error) {
+    next(
+      new HttpError("There is server internal issue related to email.", 400)
+    );
+    return;
+  }
+
+  let orderProductList: OrderProduct[] = reduce_data_to_orderProducts(
+    productInStockThatMatch,
+    newProductList
+  );
+
+  const totalPrice = calculate_orderProducts_total_price(orderProductList);
+
+  let newOrder;
+
+  try {
+    newOrder = await add_order_to_database(validBody, totalPrice, user);
+  } catch (error) {
+    next(
+      new HttpError(
+        "There is server internal issue related order. Please try again.",
+        500
+      )
+    );
+    return;
+  }
+
+  const isShippingExpress = validBody.shipping === "express";
+  const shippingRate = await stripe.shippingRates.create({
+    display_name: isShippingExpress ? "Express Shipping" : "Ground shipping",
+    type: "fixed_amount",
+    fixed_amount: {
+      amount: isShippingExpress ? 2000 : 0,
+      currency: "usd",
+    },
+    delivery_estimate: {
+      minimum: {
+        unit: "business_day",
+        value: isShippingExpress ? 3 : 5,
+      },
+      maximum: {
+        unit: "business_day",
+        value: isShippingExpress ? 5 : 7,
+      },
+    },
+  });
+
+  const products = orderProductList.map((item) => {
+    const unitPrice = Number((item.price * 100).toFixed(2));
+    const product = {
+      price_data: {
+        currency: "usd",
+        product_data: {
+          name: item.title,
+          images: [item.image],
+        },
+        unit_amount: unitPrice,
+      },
+      quantity: item.quantity,
+    };
+    return product;
+  });
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: products,
+    mode: "payment",
+    client_reference_id: newOrder.orderNumber,
+    success_url: `${process.env.FRONTEND_URL}/checkout?status=success`,
+    cancel_url: `${process.env.FRONTEND_URL}/checkout`,
+    customer_email: validBody.email,
+    shipping_options: [
+      {
+        shipping_rate: shippingRate.id,
+      },
+    ],
+    expires_at: Math.floor(Date.now() / 1000) + 3600 * 2,
+  });
+
+  res.json({ id: session.id });
+};
+
+export const stripePaymentStatus = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const sig = req.headers["stripe-signature"];
+
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig!, endpointSecret);
+  } catch (err: any) {
+    res.status(400).send(`Webhook Error: ${err.message}`);
+    return;
+  }
+
+  if (event.type === "checkout.session.completed") {
+    const checkoutCompleted = event.data.object;
+    if (checkoutCompleted.payment_status === "paid") {
+      const order = await prisma.order.update({
+        where: {
+          orderNumber: checkoutCompleted.client_reference_id as string,
+        },
+        data: {
+          paymentStatus: "paid",
+        },
+      });
+
+      const productList = JSON.parse(
+        order.productList! as string
+      ) as CartItem[];
+
+      let productIdArray = get_productList_id(productList);
+
+      let productInStockThatMatch: Product[] = [];
+
+      productInStockThatMatch = await prisma.product.findMany({
+        where: {
+          id: { in: productIdArray },
+        },
+      });
+
+      let orderProductList: OrderProduct[] = reduce_data_to_orderProducts(
+        productInStockThatMatch,
+        productList
+      );
+
+      const mailText = `Dear ${order.name}, your order has been received and will be processed as soon as possible. Your total bill is ${order.price}`;
+
+      const mailHtml = order_confirmation(order, orderProductList);
+
+      sendMail({
+        to: order.email,
+        subject: "Order Confirmation",
+        text: mailText,
+        html: mailHtml,
+      }).catch((err) => console.log(err));
+    }
+  }
+
+  res.send();
+};
 
 export const getOrderDetail = async (
   req: Request,

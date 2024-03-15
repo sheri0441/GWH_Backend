@@ -6,11 +6,9 @@ import { prisma } from "../prisma/prisma";
 import { User } from "../interfaces/User";
 import { CartItem } from "../interfaces/CartItem";
 import { cartSchema } from "../validationSchema/cart";
-import { emailSchema } from "../validationSchema/email";
 import { authIdSchema } from "../validationSchema/auth";
-import axios from "axios";
-import { json } from "stream/consumers";
 import { sendMail } from "../util/nodemailer";
+import { deleteMessage } from "../email_template/deleteMessage";
 
 export const userAndCartHandler = async (
   req: Request,
@@ -157,6 +155,18 @@ export const deleteUser = async (
     return;
   }
 
+  let user;
+  try {
+    user = await prisma.user.findUnique({
+      where: {
+        auth: validAuthId,
+      },
+    });
+  } catch (error) {
+    next(new HttpError("There is some error in the database.", 500));
+    return;
+  }
+
   try {
     await prisma.deleteUser.create({
       data: {
@@ -173,6 +183,13 @@ export const deleteUser = async (
     subject: "delete user",
     text: `Delete user by the id : ${validAuthId}`,
     html: "",
+  });
+
+  sendMail({
+    to: user!.email,
+    subject: "Account Delete",
+    text: "Your account will be delete shortly from GWH.",
+    html: deleteMessage(user!.name),
   });
 
   res.status(204).json("Deleted");

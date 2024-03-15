@@ -6,6 +6,7 @@ import { parse } from "valibot";
 import { cartSchema } from "../validationSchema/cart";
 import { do_Sorting_Pagination_Modification } from "../util/dspm";
 import { reduceListDataToCard } from "../util/reduceListDataToCard";
+import { log } from "console";
 
 export const getProductList = async (
   req: Request,
@@ -69,14 +70,27 @@ export const getProductById = async (
           id: product.id,
         },
       },
-      take: 4,
     });
   } catch (error) {
     next(new HttpError("There is some issue in server.", 503));
     return;
   }
 
-  const modifiedSimilarProductList = reduceListDataToCard(similarProductList);
+  const fetch_random_four_products = (list: Product[]) => {
+    let productList = list;
+    const randomProductList = [];
+    for (let i = 0; i < 4; i++) {
+      const randomIndex = Math.floor(Math.random() * productList.length);
+      const randomProduct = productList[randomIndex];
+      productList = productList.filter((pro) => pro.id !== randomProduct.id);
+      randomProductList.push(randomProduct);
+    }
+    return randomProductList;
+  };
+
+  const random_four_products = fetch_random_four_products(similarProductList);
+
+  const modifiedSimilarProductList = reduceListDataToCard(random_four_products);
 
   res.json({ main: product, similar: modifiedSimilarProductList }).status(200);
 };

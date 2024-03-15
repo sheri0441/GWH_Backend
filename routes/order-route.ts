@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post("/cash", orderCashHandler);
 
-router.post("/card", orderCardHandler)
+router.post("/card", orderCardHandler);
 
 router.get("/:orderNumber", getOrderDetail);
 

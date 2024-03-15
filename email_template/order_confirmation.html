@@ -1,25 +1,4 @@
-import { OrderProduct } from "../interfaces/OrderProduct";
-
-export const order_confirmation = (
-  orderDetail: {
-    orderNumber: String;
-    name: String;
-    email: String;
-    city: String;
-    zip: String;
-    area: String;
-    address: String;
-    status: String;
-    shippingMethod: String;
-    payment: String;
-    paymentStatus: String;
-    price: number;
-    isRegisteredUser: Boolean;
-    orderedOn: Date;
-  },
-  products: Array<OrderProduct>
-) => {
-  return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:v="urn:schemas-microsoft-com:vml"
@@ -93,14 +72,14 @@ export const order_confirmation = (
     <style type="text/css" emogrify="no">
       @media (max-width: 600px) {
         .gmx-killpill {
-          content: '\x03';
+          content: " \03D1";
         }
       }
     </style>
     <style type="text/css" emogrify="no">
       @media (max-width: 600px) {
         .gmx-killpill {
-          content:'0o3';
+          content: " \03D1";
         }
         .r0-o {
           border-style: solid !important;
@@ -880,7 +859,7 @@ export const order_confirmation = (
                                         word-break: break-word;
                                       "
                                     >
-                                      Thank you ${orderDetail.name},
+                                      Thank you John,
                                     </h1>
                                   </div>
                                 </td>
@@ -1029,7 +1008,7 @@ export const order_confirmation = (
                                               word-break: break-word;
                                             "
                                           >
-                                            Order No: ${orderDetail.orderNumber}
+                                            Order No: 007345142
                                           </div>
                                         </div>
                                       </td>
@@ -1062,9 +1041,7 @@ export const order_confirmation = (
                                               word-break: break-word;
                                             "
                                           >
-                                            Order date: ${orderDetail.orderedOn.getDate()}/${
-    orderDetail.orderedOn.getMonth() + 1
-  }/${orderDetail.orderedOn.getFullYear()}
+                                            Order date: 21 Dec 2020
                                           </div>
                                         </div>
                                       </td>
@@ -1121,11 +1098,7 @@ export const order_confirmation = (
                                               "
                                             >
                                               <a
-                                                href="${
-                                                  process.env.FRONTEND_URL
-                                                }/track/${
-    orderDetail.orderNumber
-  }"
+                                                href="#top"
                                                 class="r24-r default-button"
                                                 target="_blank"
                                                 data-btn="1"
@@ -1217,9 +1190,7 @@ export const order_confirmation = (
                                               "
                                             >
                                               <a
-                                                href="${
-                                                  process.env.FRONTEND_URL
-                                                }"
+                                                href="#top"
                                                 class="r26-r default-button"
                                                 target="_blank"
                                                 data-btn="2"
@@ -1413,12 +1384,11 @@ export const order_confirmation = (
                                         word-break: break-word;
                                       "
                                     >
-                                      ${orderDetail.name}<br />
-                                      ${orderDetail.address}<br />
-                                      ${orderDetail.area},${
-    orderDetail.zip
-  }<br />
-                                      ${orderDetail.city}
+                                      John Doe<br />
+                                      Sendinblue<br />
+                                      Rue d'Amsterdam 55<br />
+                                      75008 Paris<br />
+                                      France
                                     </div>
                                   </div>
                                 </td>
@@ -1511,9 +1481,10 @@ export const order_confirmation = (
                                         word-break: break-word;
                                       "
                                     >
-                                      ${orderDetail.payment}<br />
-                                      ${orderDetail.paymentStatus}<br />
-                                      ${orderDetail.shippingMethod}
+                                      John Doe<br />
+                                      Sendinblue<br />
+                                      Rue d'Amsterdam 55<br />
+                                      75008 Paris<br />
                                       France
                                     </div>
                                   </div>
@@ -1526,8 +1497,7 @@ export const order_confirmation = (
                     </td>
                   </tr>
                 </table>
-                ${products.map((pro) => {
-                  return `<table
+                <table
                   cellspacing="0"
                   cellpadding="0"
                   border="0"
@@ -1601,7 +1571,7 @@ export const order_confirmation = (
                                               "
                                             >
                                               <img
-                                                src="${pro.image}"
+                                                src="https://img.mailinblue.com/2670624/images/rnb/original/5fd092a3becf5f229e6014c2.png"
                                                 width="115"
                                                 border="0"
                                                 style="
@@ -1662,7 +1632,7 @@ export const order_confirmation = (
                                         word-break: break-word;
                                       "
                                     >
-                                      <u>${pro.title}</u>
+                                      <u>Product name</u>
                                     </h3>
                                   </div>
                                 </td>
@@ -1705,7 +1675,7 @@ export const order_confirmation = (
                                         word-break: break-word;
                                       "
                                     >
-                                      ${pro.category}
+                                      Category here
                                     </div>
                                   </div>
                                 </td>
@@ -1748,7 +1718,7 @@ export const order_confirmation = (
                                         word-break: break-word;
                                       "
                                     >
-                                      ${pro.price}$
+                                      125.5
                                     </div>
                                   </div>
                                 </td>
@@ -1799,7 +1769,7 @@ export const order_confirmation = (
                                         word-break: break-word;
                                       "
                                     >
-                                      x${pro.quantity}
+                                      x2
                                     </div>
                                   </div>
                                 </td>
@@ -1850,7 +1820,7 @@ export const order_confirmation = (
                                         word-break: break-word;
                                       "
                                     >
-                                      ${pro.price * pro.quantity}$
+                                      1300€
                                     </div>
                                   </div>
                                 </td>
@@ -1861,9 +1831,342 @@ export const order_confirmation = (
                       </table>
                     </td>
                   </tr>
-                </table>`;
-                })}
-                
+                </table>
+                <table
+                  cellspacing="0"
+                  cellpadding="0"
+                  border="0"
+                  role="presentation"
+                  width="100%"
+                  align="center"
+                  class="r0-o"
+                  style="table-layout: fixed; width: 100%"
+                >
+                  <tr>
+                    <td
+                      class="r37-i"
+                      style="
+                        background-color: #ffffff;
+                        padding-left: 35px;
+                        padding-right: 35px;
+                        padding-top: 30px;
+                      "
+                    >
+                      <table
+                        width="100%"
+                        cellspacing="0"
+                        cellpadding="0"
+                        border="0"
+                        role="presentation"
+                      >
+                        <tr>
+                          <th
+                            width="25%"
+                            valign="top"
+                            class="r5-c"
+                            style="font-weight: normal"
+                          >
+                            <table
+                              cellspacing="0"
+                              cellpadding="0"
+                              border="0"
+                              role="presentation"
+                              width="100%"
+                              class="r6-o"
+                              style="table-layout: fixed; width: 100%"
+                            >
+                              <tr>
+                                <td valign="top" class="r19-i">
+                                  <table
+                                    width="100%"
+                                    cellspacing="0"
+                                    cellpadding="0"
+                                    border="0"
+                                    role="presentation"
+                                  >
+                                    <tr>
+                                      <td class="r32-c" align="left">
+                                        <table
+                                          cellspacing="0"
+                                          cellpadding="0"
+                                          border="0"
+                                          role="presentation"
+                                          width="115"
+                                          class="r33-o"
+                                          style="
+                                            table-layout: fixed;
+                                            width: 115px;
+                                          "
+                                        >
+                                          <tr>
+                                            <td
+                                              style="
+                                                font-size: 0px;
+                                                line-height: 0px;
+                                              "
+                                            >
+                                              <img
+                                                src="https://img.mailinblue.com/2670624/images/rnb/original/5fd092a335aca775b7633d3f.png"
+                                                width="115"
+                                                border="0"
+                                                style="
+                                                  display: block;
+                                                  width: 100%;
+                                                "
+                                              />
+                                            </td>
+                                          </tr>
+                                        </table>
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </td>
+                              </tr>
+                            </table>
+                          </th>
+                          <th
+                            width="50%"
+                            valign="top"
+                            class="r5-c"
+                            style="font-weight: normal"
+                          >
+                            <table
+                              cellspacing="0"
+                              cellpadding="0"
+                              border="0"
+                              role="presentation"
+                              width="100%"
+                              align="left"
+                              class="r16-o"
+                              style="table-layout: fixed; width: 100%"
+                            >
+                              <tr>
+                                <td
+                                  align="left"
+                                  valign="top"
+                                  class="r34-i nl2go-default-textstyle"
+                                  style="
+                                    color: #3b3f44;
+                                    font-family: Montserrat, arial, helvetica,
+                                      sans-serif;
+                                    font-size: 16px;
+                                    line-height: 1.2;
+                                    word-break: break-word;
+                                    text-align: left;
+                                  "
+                                >
+                                  <div>
+                                    <h3
+                                      class="default-heading3"
+                                      style="
+                                        margin: 0;
+                                        color: #000;
+                                        font-family: Montserrat, arial,
+                                          helvetica, sans-serif;
+                                        font-size: 20px;
+                                        word-break: break-word;
+                                      "
+                                    >
+                                      <u>Product name</u>
+                                    </h3>
+                                  </div>
+                                </td>
+                              </tr>
+                            </table>
+                            <table
+                              cellspacing="0"
+                              cellpadding="0"
+                              border="0"
+                              role="presentation"
+                              width="100%"
+                              align="left"
+                              class="r16-o"
+                              style="table-layout: fixed; width: 100%"
+                            >
+                              <tr>
+                                <td
+                                  align="left"
+                                  valign="top"
+                                  class="r35-i nl2go-default-textstyle"
+                                  style="
+                                    color: #3b3f44;
+                                    font-family: Montserrat, arial, helvetica,
+                                      sans-serif;
+                                    font-size: 16px;
+                                    line-height: 1.2;
+                                    word-break: break-word;
+                                    padding-top: 6px;
+                                    text-align: left;
+                                  "
+                                >
+                                  <div>
+                                    <div
+                                      class="sib_class_16_black"
+                                      style="
+                                        color: #000;
+                                        font-family: Montserrat, arial,
+                                          helvetica, sans-serif;
+                                        font-size: 16px;
+                                        word-break: break-word;
+                                      "
+                                    >
+                                      Category here
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </table>
+                            <table
+                              cellspacing="0"
+                              cellpadding="0"
+                              border="0"
+                              role="presentation"
+                              width="100%"
+                              align="left"
+                              class="r16-o"
+                              style="table-layout: fixed; width: 100%"
+                            >
+                              <tr>
+                                <td
+                                  align="left"
+                                  valign="top"
+                                  class="r35-i nl2go-default-textstyle"
+                                  style="
+                                    color: #3b3f44;
+                                    font-family: Montserrat, arial, helvetica,
+                                      sans-serif;
+                                    font-size: 16px;
+                                    line-height: 1.2;
+                                    word-break: break-word;
+                                    padding-top: 6px;
+                                    text-align: left;
+                                  "
+                                >
+                                  <div>
+                                    <div
+                                      class="sib_class_16_black"
+                                      style="
+                                        color: #000;
+                                        font-family: Montserrat, arial,
+                                          helvetica, sans-serif;
+                                        font-size: 16px;
+                                        word-break: break-word;
+                                      "
+                                    >
+                                      125.5
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </table>
+                          </th>
+                          <th
+                            width="8.33%"
+                            valign="top"
+                            class="r5-c"
+                            style="font-weight: normal"
+                          >
+                            <table
+                              cellspacing="0"
+                              cellpadding="0"
+                              border="0"
+                              role="presentation"
+                              width="100%"
+                              align="left"
+                              class="r16-o"
+                              style="table-layout: fixed; width: 100%"
+                            >
+                              <tr>
+                                <td
+                                  align="left"
+                                  valign="top"
+                                  class="r36-i nl2go-default-textstyle"
+                                  style="
+                                    color: #3b3f44;
+                                    font-family: Montserrat, arial, helvetica,
+                                      sans-serif;
+                                    font-size: 16px;
+                                    line-height: 1.2;
+                                    word-break: break-word;
+                                    padding-top: 57px;
+                                    text-align: left;
+                                  "
+                                >
+                                  <div>
+                                    <div
+                                      class="sib_class_18_black_sb"
+                                      style="
+                                        color: #000;
+                                        font-family: Montserrat, arial,
+                                          helvetica, sans-serif;
+                                        font-size: 18px;
+                                        font-weight: 600;
+                                        word-break: break-word;
+                                      "
+                                    >
+                                      x1
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </table>
+                          </th>
+                          <th
+                            width="16.67%"
+                            valign="top"
+                            class="r5-c"
+                            style="font-weight: normal"
+                          >
+                            <table
+                              cellspacing="0"
+                              cellpadding="0"
+                              border="0"
+                              role="presentation"
+                              width="100%"
+                              align="left"
+                              class="r16-o"
+                              style="table-layout: fixed; width: 100%"
+                            >
+                              <tr>
+                                <td
+                                  align="right"
+                                  valign="top"
+                                  class="r36-i nl2go-default-textstyle"
+                                  style="
+                                    color: #3b3f44;
+                                    font-family: Montserrat, arial, helvetica,
+                                      sans-serif;
+                                    font-size: 16px;
+                                    line-height: 1.2;
+                                    word-break: break-word;
+                                    padding-top: 49px;
+                                    text-align: right;
+                                  "
+                                >
+                                  <div>
+                                    <div
+                                      class="sib_class_24_black_b"
+                                      style="
+                                        color: #000;
+                                        font-family: Montserrat, arial,
+                                          helvetica, sans-serif;
+                                        font-size: 24px;
+                                        font-weight: 700;
+                                        word-break: break-word;
+                                      "
+                                    >
+                                      260€
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </table>
+                          </th>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
                 <table
                   cellspacing="0"
                   cellpadding="0"
@@ -2080,13 +2383,7 @@ export const order_confirmation = (
                                         word-break: break-word;
                                       "
                                     >
-                                      ${
-                                        orderDetail.price -
-                                        (orderDetail.shippingMethod ===
-                                        "express"
-                                          ? 20
-                                          : 0)
-                                      }$
+                                      1432€
                                     </div>
                                   </div>
                                 </td>
@@ -2219,11 +2516,7 @@ export const order_confirmation = (
                                         word-break: break-word;
                                       "
                                     >
-                                      ${
-                                        orderDetail.shippingMethod === "express"
-                                          ? 20
-                                          : 0
-                                      }$
+                                      50€
                                     </div>
                                   </div>
                                 </td>
@@ -2452,7 +2745,7 @@ export const order_confirmation = (
                                         word-break: break-word;
                                       "
                                     >
-                                      ${orderDetail.price}$
+                                      1575,2€
                                     </div>
                                   </div>
                                 </td>
@@ -2619,9 +2912,7 @@ export const order_confirmation = (
                                       "
                                     >
                                       <a
-                                        href="mailto:${
-                                          process.env.PERSONAL_EMAIL
-                                        }?subject=reply to confirmation"
+                                        href="mailto:sa2283493@gmail.com?subject=sa2283493%40gmail.com"
                                         target="_blank"
                                         style="
                                           color: #3075a6;
@@ -2648,5 +2939,3 @@ export const order_confirmation = (
     </table>
   </body>
 </html>
-`;
-};
