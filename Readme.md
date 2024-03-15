@@ -43,22 +43,22 @@ npm install
 
 This section provides details about the different routes available in the API.
 
-GET /categories -- Retrieve a list of all categories.
-POST /contacts -- Send a contact form message.
-POST /orders/cash -- Create a new order with cash payment.
-POST /orders/card -- Create a new order with card payment.
-GET /orders/:orderNumber -- Retrieve details of a specific order.
-GET /products/page/:page -- Retrieve a list of products by page number.
-GET /products/id/:id -- Retrieve a product by its ID.
-GET /products/category/:category/:page -- Retrieve a list of products by category and page number.
-GET /products/search/:search -- Search for products upto 5 max by keyword.
-GET /products/searchpage/:search/:page -- Search for products by keyword for a specific page.
-GET /products/featured -- Retrieve a list of featured products. Which is 4 max.
-GET /products/recent -- Retrieve a list of recently added one product.
-POST /products/cart -- Retrieve a list of products that are in the cart.
-POST /users -- Create or update user information and their shopping cart.
-PUT /users/cart -- Update the user's shopping cart.
-DELETE /users -- Send notification to the owner to delete the user.
+- GET /categories -- Retrieve a list of all categories.
+- POST /contacts -- Send a contact form message.
+- POST /orders/cash -- Create a new order with cash payment.
+- POST /orders/card -- Create a new order with card payment.
+- GET /orders/:orderNumber -- Retrieve details of a specific order.
+- GET /products/page/:page -- Retrieve a list of products by page number.
+- GET /products/id/:id -- Retrieve a product by its ID.
+- GET /products/category/:category/:page -- Retrieve a list of products by category and page number.
+- GET /products/search/:search -- Search for products upto 5 max by keyword.
+- GET /products/searchpage/:search/:page -- Search for products by keyword for a specific page.
+- GET /products/featured -- Retrieve a list of featured products. Which is 4 max.
+- GET /products/recent -- Retrieve a list of recently added one product.
+- POST /products/cart -- Retrieve a list of products that are in the cart.
+- POST /users -- Create or update user information and their shopping cart.
+- PUT /users/cart -- Update the user's shopping cart.
+- DELETE /users -- Send notification to the owner to delete the user.
 
 ## License
 
