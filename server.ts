@@ -54,4 +54,4 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => console.log("server is connected."));
+app.listen(port);

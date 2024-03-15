@@ -1,5 +1,4 @@
 import generateUniqueId from "generate-unique-id";
-import { OrderProduct } from "../interfaces/OrderProduct";
 import { OrderValidBody } from "../interfaces/OrderValidBody";
 import { UserPrisma } from "../interfaces/UserPrisma";
 import { prisma } from "../prisma/prisma";
