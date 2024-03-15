@@ -1,5 +1,5 @@
-import { Product } from "../interfaces/Product";
-import { ProductCart } from "../interfaces/ProductCart";
+import { Product } from "../interfaces/Product.ts";
+import { ProductCart } from "../interfaces/ProductCart.ts";
 
 export const reduceListDataToCard = (list: Product[]): ProductCart[] => {
   return list.map((pro) => {

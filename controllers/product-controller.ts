@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { HttpError } from "../models/http-error";
-import { Product } from "../interfaces/Product";
-import { prisma } from "../prisma/prisma";
+import { HttpError } from "../models/http-error.ts";
+import { Product } from "../interfaces/Product.ts";
+import { prisma } from "../prisma/prisma.ts";
 import { parse } from "valibot";
-import { cartSchema } from "../validationSchema/cart";
-import { do_Sorting_Pagination_Modification } from "../util/dspm";
-import { reduceListDataToCard } from "../util/reduceListDataToCard";
+import { cartSchema } from "../validationSchema/cart.ts";
+import { do_Sorting_Pagination_Modification } from "../util/dspm.ts";
+import { reduceListDataToCard } from "../util/reduceListDataToCard.ts";
 import { log } from "console";
 
 export const getProductList = async (

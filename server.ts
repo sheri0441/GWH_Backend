@@ -1,12 +1,12 @@
 import express, { NextFunction, Request, Response } from "express";
 import { auth } from "express-oauth2-jwt-bearer";
-import products from "./routes/products-route";
-import category from "./routes/category-route";
-import order from "./routes/order-route";
-import user from "./routes/user-route";
-import contact from "./routes/contact-route";
+import products from "./routes/products-route.ts";
+import category from "./routes/category-route.ts";
+import order from "./routes/order-route.ts";
+import user from "./routes/user-route.ts";
+import contact from "./routes/contact-route.ts";
 import cors from "cors";
-import { stripePaymentStatus } from "./controllers/order-controller";
+import { stripePaymentStatus } from "./controllers/order-controller.ts";
 
 const app = express();
 

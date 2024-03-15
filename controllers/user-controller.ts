@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import { parse } from "valibot";
-import { userSchema } from "../validationSchema/user";
-import { HttpError } from "../models/http-error";
-import { prisma } from "../prisma/prisma";
-import { User } from "../interfaces/User";
-import { CartItem } from "../interfaces/CartItem";
-import { cartSchema } from "../validationSchema/cart";
-import { authIdSchema } from "../validationSchema/auth";
-import { sendMail } from "../util/nodemailer";
-import { deleteMessage } from "../email_template/deleteMessage";
+import { userSchema } from "../validationSchema/user.ts";
+import { HttpError } from "../models/http-error.ts";
+import { prisma } from "../prisma/prisma.ts";
+import { User } from "../interfaces/User.ts";
+import { CartItem } from "../interfaces/CartItem.ts";
+import { cartSchema } from "../validationSchema/cart.ts";
+import { authIdSchema } from "../validationSchema/auth.ts";
+import { sendMail } from "../util/nodemailer.ts";
+import { deleteMessage } from "../email_template/deleteMessage.ts";
 
 export const userAndCartHandler = async (
   req: Request,

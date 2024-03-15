@@ -8,7 +8,7 @@ import {
   getRecentProduct,
   getProductsBySearch,
   getProductsBySearchForPage,
-} from "../controllers/product-controller";
+} from "../controllers/product-controller.ts";
 
 const router = express.Router();
 

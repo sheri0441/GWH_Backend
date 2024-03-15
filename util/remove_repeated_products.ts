@@ -1,4 +1,4 @@
-import { CartItem } from "../interfaces/CartItem";
+import { CartItem } from "../interfaces/CartItem.ts";
 
 export const remove_repeated_products = (list: CartItem[]) => {
   let newList = list;

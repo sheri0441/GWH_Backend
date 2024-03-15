@@ -1,21 +1,21 @@
 import { Request, Response, NextFunction } from "express";
 import { parse } from "valibot";
-import { prisma } from "../prisma/prisma";
-import { Product } from "../interfaces/Product";
-import { orderForm } from "../validationSchema/orderForm";
-import { HttpError } from "../models/http-error";
-import { sendMail } from "../util/nodemailer";
-import { order_confirmation } from "../email_template/order_confirmation";
-import { OrderProduct } from "../interfaces/OrderProduct";
-import { remove_repeated_products } from "../util/remove_repeated_products";
-import { reduce_data_to_orderProducts } from "../util/reduce_data_to_orderProducts";
-import { UserPrisma } from "../interfaces/UserPrisma";
-import { add_order_to_database } from "../util/add_order_to_database";
-import { calculate_orderProducts_total_price } from "../util/calculate_orderProducts_total_price";
-import { find_user } from "../util/find_user";
-import { get_productList_id } from "../util/get_productList_id";
+import { prisma } from "../prisma/prisma.ts";
+import { Product } from "../interfaces/Product.ts";
+import { orderForm } from "../validationSchema/orderForm.ts";
+import { HttpError } from "../models/http-error.ts";
+import { sendMail } from "../util/nodemailer.ts";
+import { order_confirmation } from "../email_template/order_confirmation.ts";
+import { OrderProduct } from "../interfaces/OrderProduct.ts";
+import { remove_repeated_products } from "../util/remove_repeated_products.ts";
+import { reduce_data_to_orderProducts } from "../util/reduce_data_to_orderProducts.ts";
+import { UserPrisma } from "../interfaces/UserPrisma.ts";
+import { add_order_to_database } from "../util/add_order_to_database.ts";
+import { calculate_orderProducts_total_price } from "../util/calculate_orderProducts_total_price.ts";
+import { find_user } from "../util/find_user.ts";
+import { get_productList_id } from "../util/get_productList_id.ts";
 import Stripe from "stripe";
-import { CartItem } from "../interfaces/CartItem";
+import { CartItem } from "../interfaces/CartItem.ts";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export const orderCashHandler = async (

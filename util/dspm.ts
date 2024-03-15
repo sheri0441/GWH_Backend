@@ -1,6 +1,6 @@
-import { Product } from "../interfaces/Product";
-import { ProductCart } from "../interfaces/ProductCart";
-import { reduceListDataToCard } from "./reduceListDataToCard";
+import { Product } from "../interfaces/Product.ts";
+import { ProductCart } from "../interfaces/ProductCart.ts";
+import { reduceListDataToCard } from "./reduceListDataToCard.ts";
 
 const getListSorted = (productList: Product[], sortBy: string): Product[] => {
   if (sortBy === "a-zAsc") {

@@ -3,7 +3,7 @@ import {
   orderCashHandler,
   getOrderDetail,
   orderCardHandler,
-} from "../controllers/order-controller";
+} from "../controllers/order-controller.ts";
 
 const router = express.Router();
 

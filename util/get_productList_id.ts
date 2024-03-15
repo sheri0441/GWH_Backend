@@ -1,4 +1,4 @@
-import { CartItem } from "../interfaces/CartItem";
+import { CartItem } from "../interfaces/CartItem.ts";
 
 export const get_productList_id = (list: CartItem[]) => {
   let idArray: string[] = [];

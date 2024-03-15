@@ -3,7 +3,7 @@ import {
   userAndCartHandler,
   updateUserCart,
   deleteUser,
-} from "../controllers/user-controller";
+} from "../controllers/user-controller.ts";
 
 const router = express.Router();
 

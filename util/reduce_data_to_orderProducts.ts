@@ -1,6 +1,6 @@
-import { CartItem } from "../interfaces/CartItem";
-import { OrderProduct } from "../interfaces/OrderProduct";
-import { Product } from "../interfaces/Product";
+import { CartItem } from "../interfaces/CartItem.ts";
+import { OrderProduct } from "../interfaces/OrderProduct.ts";
+import { Product } from "../interfaces/Product.ts";
 
 export const reduce_data_to_orderProducts = (
   dataList: Product[],

@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { sendMail } from "../util/nodemailer";
+import { sendMail } from "../util/nodemailer.ts";
 import { parse } from "valibot";
-import { contactSchema } from "../validationSchema/contact";
-import { HttpError } from "../models/http-error";
-import { prisma } from "../prisma/prisma";
-import { responseMessage } from "../email_template/responseMessage";
+import { contactSchema } from "../validationSchema/contact.ts";
+import { HttpError } from "../models/http-error.ts";
+import { prisma } from "../prisma/prisma.ts";
+import { responseMessage } from "../email_template/responseMessage.ts";
 
 export const contactHandler = async (
   req: Request,

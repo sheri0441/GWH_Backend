@@ -1,4 +1,4 @@
-import { OrderProduct } from "../interfaces/OrderProduct";
+import { OrderProduct } from "../interfaces/OrderProduct.ts";
 
 export const order_confirmation = (
   orderDetail: {

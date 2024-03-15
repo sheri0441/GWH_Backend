@@ -1,4 +1,4 @@
-import { CartItem } from "./CartItem";
+import { CartItem } from "./CartItem.ts";
 
 export interface OrderValidBody {
   name: string;

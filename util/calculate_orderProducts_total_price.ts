@@ -1,4 +1,4 @@
-import { OrderProduct } from "../interfaces/OrderProduct";
+import { OrderProduct } from "../interfaces/OrderProduct.ts";
 
 export const calculate_orderProducts_total_price = (list: OrderProduct[]) => {
   let sum = 0;

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { prisma } from "../prisma/prisma";
-import { HttpError } from "../models/http-error";
-import { category } from "../interfaces/Category";
+import { prisma } from "../prisma/prisma.ts";
+import { HttpError } from "../models/http-error.ts";
+import { category } from "../interfaces/Category.ts";
 
 export const categoryList = async (
   req: Request,
