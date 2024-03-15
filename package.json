@@ -2,8 +2,8 @@
   "name": "gwh_backend",
   "version": "1.0.0",
   "main": "server.ts",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.ts"
   },
   "author": "",
