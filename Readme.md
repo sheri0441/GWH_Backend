@@ -1,6 +1,6 @@
 # GWH_Backend
 
-This is backend of my E-commerce Website. The website built with React on frontend and node.js + express.js on backend.//=============================================================================
+This is backend of my E-commerce Website. The website built with React on frontend and node.js + express.js on backend.
 
 ## Table of Contents
 
@@ -8,8 +8,6 @@ This is backend of my E-commerce Website. The website built with React on fronte
   - [Table of Contents](#table-of-contents)
   - [About](#about)
   - [Installation](#installation)
-  - [Usage](#usage)
-  - [Configuration](#configuration)
   - [Features](#features)
   - [API Documentation](#api-documentation)
   - [Testing](#testing)
@@ -19,23 +17,30 @@ This is backend of my E-commerce Website. The website built with React on fronte
 
 ## About
 
-A brief introduction to the project, its purpose, and its goals.
+This is a simple backend for a web application that handles products, user and order. And also send email notifications to users when they make an order, contact or want to delete their account.
 
 ## Installation
 
-Instructions on how to install the project locally. Include any prerequisites and step-by-step instructions.
+To install the backend, you need to have Node and npm installed on your machine.
 
-## Usage
-
-Instructions on how to use the project once it's installed. Include examples and command line usage if applicable.
-
-## Configuration
-
-Information about any configuration options available, including environment variables, configuration files, etc.
+```bash
+npm install
+```
 
 ## Features
 
-List of key features or functionalities provided by the project.
+- Integrated with Prisma for database management (@prisma/client)
+- Type definitions for Express (@types/express)
+- Type definitions for Nodemailer (@types/nodemailer)
+- HTTP client for making requests (axios)
+- CORS middleware for Express (cors)
+- Environment variable management (dotenv)
+- Web server framework for Node.js (express)
+- OAuth2 JWT Bearer token middleware (express-oauth2-jwt-bearer)
+- Utility for generating unique IDs (generate-unique-id)
+- Node.js module for sending emails (nodemailer)
+- Stripe API client (stripe)
+- Validation library (valibot)
 
 ## API Documentation
 
@@ -51,7 +56,7 @@ Guidelines for contributing to the project. Include information about how to rep
 
 ## License
 
-Information about the project's license.
+ISC
 
 ## Acknowledgments
 
