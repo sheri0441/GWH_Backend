@@ -8,6 +8,7 @@ This is backend of my E-commerce Website. The website built with React on fronte
   - [Table of Contents](#table-of-contents)
   - [About](#about)
   - [Installation](#installation)
+  - [Environment Variables](#environment-variables)
   - [Features](#features)
   - [API Documentation](#api-documentation)
   - [License](#license)
@@ -23,6 +24,22 @@ To install the backend, you need to have Node and npm installed on your machine.
 ```bash
 npm install
 ```
+
+## Environment Variables
+
+This section lists the environment variables used in the project.
+
+- `DATABASE_URL`: The URL for connecting to the database to prisma.
+- `AUTH0_AUDIENCE`: The audience for Auth0 authentication.
+- `AUTH0_BASE_URL`: The base URL for Auth0 authentication.
+- `AUTH0_TOKEN_ALG`: The algorithm used for Auth0 token verification.
+- `NODEMAILER_SMTP`: The SMTP server for NodeMailer.
+- `NODEMAILER_USER`: The user email for NodeMailer authentication.
+- `NODEMAILER_PASS`: The password for NodeMailer authentication.
+- `FRONTEND_URL`: The URL for the frontend application.
+- `PERSONAL_EMAIL`: The personal email address.
+- `STRIPE_WEBHOOK_SECRET`: The secret key for Stripe webhook.
+- `STRIPE_SECRET_KEY`: The secret key for Stripe API.
 
 ## Features
 
