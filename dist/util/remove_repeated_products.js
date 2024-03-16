@@ -1,4 +1,7 @@
-export const remove_repeated_products = (list) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.remove_repeated_products = void 0;
+const remove_repeated_products = (list) => {
     let newList = list;
     for (let i = 0; i < newList.length; i++) {
         const x = newList.filter((item) => item.productId === newList[i].productId);
@@ -18,3 +21,5 @@ export const remove_repeated_products = (list) => {
     }
     return newList;
 };
+exports.remove_repeated_products = remove_repeated_products;
+//# sourceMappingURL=remove_repeated_products.js.map

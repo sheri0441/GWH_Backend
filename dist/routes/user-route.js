@@ -1,7 +1,13 @@
-import express from "express";
-import { userAndCartHandler, updateUserCart, deleteUser, } from "../controllers/user-controller";
-const router = express.Router();
-router.post("/", userAndCartHandler);
-router.delete("/", deleteUser);
-router.put("/cart", updateUserCart);
-export default router;
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const user_controller_1 = require("../controllers/user-controller");
+const router = express_1.default.Router();
+router.post("/", user_controller_1.userAndCartHandler);
+router.delete("/", user_controller_1.deleteUser);
+router.put("/cart", user_controller_1.updateUserCart);
+exports.default = router;
+//# sourceMappingURL=user-route.js.map

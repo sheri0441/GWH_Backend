@@ -1,4 +1,7 @@
-export const reduceListDataToCard = (list) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.reduceListDataToCard = void 0;
+const reduceListDataToCard = (list) => {
     return list.map((pro) => {
         const product = {
             title: pro.title,
@@ -9,3 +12,5 @@ export const reduceListDataToCard = (list) => {
         return product;
     });
 };
+exports.reduceListDataToCard = reduceListDataToCard;
+//# sourceMappingURL=reduceListDataToCard.js.map

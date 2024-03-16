@@ -1,4 +1,7 @@
-export const responseMessage = (name) => `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.responseMessage = void 0;
+const responseMessage = (name) => `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:v="urn:schemas-microsoft-com:vml"
@@ -1109,3 +1112,5 @@ export const responseMessage = (name) => `<!DOCTYPE html PUBLIC "-//W3C//DTD XHT
     </table>
   </body>
 </html>`;
+exports.responseMessage = responseMessage;
+//# sourceMappingURL=responseMessage.js.map

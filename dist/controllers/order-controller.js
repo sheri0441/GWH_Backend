@@ -1,37 +1,43 @@
-import { parse } from "valibot";
-import { prisma } from "../prisma/prisma";
-import { orderForm } from "../validationSchema/orderForm";
-import { HttpError } from "../models/http-error";
-import { sendMail } from "../util/nodemailer";
-import { order_confirmation } from "../email_template/order_confirmation";
-import { remove_repeated_products } from "../util/remove_repeated_products";
-import { reduce_data_to_orderProducts } from "../util/reduce_data_to_orderProducts";
-import { add_order_to_database } from "../util/add_order_to_database";
-import { calculate_orderProducts_total_price } from "../util/calculate_orderProducts_total_price";
-import { find_user } from "../util/find_user";
-import { get_productList_id } from "../util/get_productList_id";
-import Stripe from "stripe";
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-export const orderCashHandler = async (req, res, next) => {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getOrderDetail = exports.stripePaymentStatus = exports.orderCardHandler = exports.orderCashHandler = void 0;
+const valibot_1 = require("valibot");
+const prisma_js_1 = require("../prisma/prisma.js");
+const orderForm_js_1 = require("../validationSchema/orderForm.js");
+const http_error_js_1 = require("../models/http-error.js");
+const nodemailer_js_1 = require("../util/nodemailer.js");
+const order_confirmation_1 = require("../email_template/order_confirmation");
+const remove_repeated_products_js_1 = require("../util/remove_repeated_products.js");
+const reduce_data_to_orderProducts_js_1 = require("../util/reduce_data_to_orderProducts.js");
+const add_order_to_database_js_1 = require("../util/add_order_to_database.js");
+const calculate_orderProducts_total_price_js_1 = require("../util/calculate_orderProducts_total_price.js");
+const find_user_js_1 = require("../util/find_user.js");
+const get_productList_id_js_1 = require("../util/get_productList_id.js");
+const stripe_1 = __importDefault(require("stripe"));
+const stripe = new stripe_1.default(process.env.STRIPE_SECRET_KEY);
+const orderCashHandler = async (req, res, next) => {
     const body = req.body;
     let validBody;
     try {
-        validBody = parse(orderForm, body);
+        validBody = (0, valibot_1.parse)(orderForm_js_1.orderForm, body);
     }
     catch (error) {
-        next(new HttpError("Validation Error", 500));
+        next(new http_error_js_1.HttpError("Validation Error", 500));
         return;
     }
     const { email, productList } = validBody;
-    const newProductList = remove_repeated_products(productList);
-    let productIdArray = get_productList_id(newProductList);
+    const newProductList = (0, remove_repeated_products_js_1.remove_repeated_products)(productList);
+    let productIdArray = (0, get_productList_id_js_1.get_productList_id)(newProductList);
     if (productIdArray.length < 1) {
-        next(new HttpError("Please add product to your order.", 400));
+        next(new http_error_js_1.HttpError("Please add product to your order.", 400));
         return;
     }
     let productInStockThatMatch = [];
     try {
-        productInStockThatMatch = await prisma.product.findMany({
+        productInStockThatMatch = await prisma_js_1.prisma.product.findMany({
             where: {
                 id: { in: productIdArray },
             },
@@ -39,36 +45,36 @@ export const orderCashHandler = async (req, res, next) => {
     }
     catch (error) {
         console.log(error);
-        next(new HttpError("Provide correct product with correct ID", 400));
+        next(new http_error_js_1.HttpError("Provide correct product with correct ID", 400));
         return;
     }
     const numberOfProductsInOrder = newProductList.length;
     const isForeignItemFound = productInStockThatMatch.length !== numberOfProductsInOrder;
     if (isForeignItemFound) {
-        next(new HttpError(`Error in product ID. ${numberOfProductsInOrder - productInStockThatMatch.length} product/s is/are unknown to us.`, 400));
+        next(new http_error_js_1.HttpError(`Error in product ID. ${numberOfProductsInOrder - productInStockThatMatch.length} product/s is/are unknown to us.`, 400));
         return;
     }
     let user;
     try {
-        user = await find_user(email);
+        user = await (0, find_user_js_1.find_user)(email);
     }
     catch (error) {
-        next(new HttpError("There is server internal issue related to email.", 400));
+        next(new http_error_js_1.HttpError("There is server internal issue related to email.", 400));
         return;
     }
-    let orderProductList = reduce_data_to_orderProducts(productInStockThatMatch, newProductList);
-    const totalPrice = calculate_orderProducts_total_price(orderProductList);
+    let orderProductList = (0, reduce_data_to_orderProducts_js_1.reduce_data_to_orderProducts)(productInStockThatMatch, newProductList);
+    const totalPrice = (0, calculate_orderProducts_total_price_js_1.calculate_orderProducts_total_price)(orderProductList);
     let newOrder;
     try {
-        newOrder = await add_order_to_database(validBody, totalPrice, user);
+        newOrder = await (0, add_order_to_database_js_1.add_order_to_database)(validBody, totalPrice, user);
     }
     catch (error) {
-        next(new HttpError("There is server internal issue related order. Please try again.", 500));
+        next(new http_error_js_1.HttpError("There is server internal issue related order. Please try again.", 500));
         return;
     }
     const mailText = `Dear ${newOrder.name}, your order has been received and will be processed as soon as possible. Your total bill is ${newOrder.price}`;
-    const mailHtml = order_confirmation(newOrder, orderProductList);
-    sendMail({
+    const mailHtml = (0, order_confirmation_1.order_confirmation)(newOrder, orderProductList);
+    (0, nodemailer_js_1.sendMail)({
         to: newOrder.email,
         subject: "Order Confirmation",
         text: mailText,
@@ -79,26 +85,27 @@ export const orderCashHandler = async (req, res, next) => {
         orderNumber: newOrder.orderNumber,
     });
 };
-export const orderCardHandler = async (req, res, next) => {
+exports.orderCashHandler = orderCashHandler;
+const orderCardHandler = async (req, res, next) => {
     const body = req.body;
     let validBody;
     try {
-        validBody = parse(orderForm, body);
+        validBody = (0, valibot_1.parse)(orderForm_js_1.orderForm, body);
     }
     catch (error) {
-        next(new HttpError("Validation Error", 500));
+        next(new http_error_js_1.HttpError("Validation Error", 500));
         return;
     }
     const { email, productList } = validBody;
-    const newProductList = remove_repeated_products(productList);
-    let productIdArray = get_productList_id(newProductList);
+    const newProductList = (0, remove_repeated_products_js_1.remove_repeated_products)(productList);
+    let productIdArray = (0, get_productList_id_js_1.get_productList_id)(newProductList);
     if (productIdArray.length < 1) {
-        next(new HttpError("Please add product to your order.", 400));
+        next(new http_error_js_1.HttpError("Please add product to your order.", 400));
         return;
     }
     let productInStockThatMatch = [];
     try {
-        productInStockThatMatch = await prisma.product.findMany({
+        productInStockThatMatch = await prisma_js_1.prisma.product.findMany({
             where: {
                 id: { in: productIdArray },
             },
@@ -106,31 +113,31 @@ export const orderCardHandler = async (req, res, next) => {
     }
     catch (error) {
         console.log(error);
-        next(new HttpError("Provide correct product with correct ID", 400));
+        next(new http_error_js_1.HttpError("Provide correct product with correct ID", 400));
         return;
     }
     const numberOfProductsInOrder = newProductList.length;
     const isForeignItemFound = productInStockThatMatch.length !== numberOfProductsInOrder;
     if (isForeignItemFound) {
-        next(new HttpError(`Error in product ID. ${numberOfProductsInOrder - productInStockThatMatch.length} product/s is/are unknown to us.`, 400));
+        next(new http_error_js_1.HttpError(`Error in product ID. ${numberOfProductsInOrder - productInStockThatMatch.length} product/s is/are unknown to us.`, 400));
         return;
     }
     let user;
     try {
-        user = await find_user(email);
+        user = await (0, find_user_js_1.find_user)(email);
     }
     catch (error) {
-        next(new HttpError("There is server internal issue related to email.", 400));
+        next(new http_error_js_1.HttpError("There is server internal issue related to email.", 400));
         return;
     }
-    let orderProductList = reduce_data_to_orderProducts(productInStockThatMatch, newProductList);
-    const totalPrice = calculate_orderProducts_total_price(orderProductList);
+    let orderProductList = (0, reduce_data_to_orderProducts_js_1.reduce_data_to_orderProducts)(productInStockThatMatch, newProductList);
+    const totalPrice = (0, calculate_orderProducts_total_price_js_1.calculate_orderProducts_total_price)(orderProductList);
     let newOrder;
     try {
-        newOrder = await add_order_to_database(validBody, totalPrice, user);
+        newOrder = await (0, add_order_to_database_js_1.add_order_to_database)(validBody, totalPrice, user);
     }
     catch (error) {
-        next(new HttpError("There is server internal issue related order. Please try again.", 500));
+        next(new http_error_js_1.HttpError("There is server internal issue related order. Please try again.", 500));
         return;
     }
     const isShippingExpress = validBody.shipping === "express";
@@ -184,7 +191,8 @@ export const orderCardHandler = async (req, res, next) => {
     });
     res.json({ id: session.id });
 };
-export const stripePaymentStatus = async (req, res, next) => {
+exports.orderCardHandler = orderCardHandler;
+const stripePaymentStatus = async (req, res, next) => {
     const sig = req.headers["stripe-signature"];
     const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
     let event;
@@ -198,7 +206,7 @@ export const stripePaymentStatus = async (req, res, next) => {
     if (event.type === "checkout.session.completed") {
         const checkoutCompleted = event.data.object;
         if (checkoutCompleted.payment_status === "paid") {
-            const order = await prisma.order.update({
+            const order = await prisma_js_1.prisma.order.update({
                 where: {
                     orderNumber: checkoutCompleted.client_reference_id,
                 },
@@ -207,17 +215,17 @@ export const stripePaymentStatus = async (req, res, next) => {
                 },
             });
             const productList = JSON.parse(order.productList);
-            let productIdArray = get_productList_id(productList);
+            let productIdArray = (0, get_productList_id_js_1.get_productList_id)(productList);
             let productInStockThatMatch = [];
-            productInStockThatMatch = await prisma.product.findMany({
+            productInStockThatMatch = await prisma_js_1.prisma.product.findMany({
                 where: {
                     id: { in: productIdArray },
                 },
             });
-            let orderProductList = reduce_data_to_orderProducts(productInStockThatMatch, productList);
+            let orderProductList = (0, reduce_data_to_orderProducts_js_1.reduce_data_to_orderProducts)(productInStockThatMatch, productList);
             const mailText = `Dear ${order.name}, your order has been received and will be processed as soon as possible. Your total bill is ${order.price}`;
-            const mailHtml = order_confirmation(order, orderProductList);
-            sendMail({
+            const mailHtml = (0, order_confirmation_1.order_confirmation)(order, orderProductList);
+            (0, nodemailer_js_1.sendMail)({
                 to: order.email,
                 subject: "Order Confirmation",
                 text: mailText,
@@ -227,16 +235,19 @@ export const stripePaymentStatus = async (req, res, next) => {
     }
     res.send();
 };
-export const getOrderDetail = async (req, res, next) => {
+exports.stripePaymentStatus = stripePaymentStatus;
+const getOrderDetail = async (req, res, next) => {
     const { orderNumber } = req.params;
-    const order = await prisma.order.findUnique({
+    const order = await prisma_js_1.prisma.order.findUnique({
         where: {
             orderNumber: orderNumber,
         },
     });
     if (!order) {
-        next(new HttpError("Order not found.", 404));
+        next(new http_error_js_1.HttpError("Order not found.", 404));
         return;
     }
     res.json({ status: order.status, total: order.price });
 };
+exports.getOrderDetail = getOrderDetail;
+//# sourceMappingURL=order-controller.js.map

@@ -1,4 +1,7 @@
-import { reduceListDataToCard } from "./reduceListDataToCard";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.do_Sorting_Pagination_Modification = void 0;
+const reduceListDataToCard_1 = require("./reduceListDataToCard");
 const getListSorted = (productList, sortBy) => {
     if (sortBy === "a-zAsc") {
         return productList.sort((a, b) => a.title.localeCompare(b.title));
@@ -21,7 +24,7 @@ const makeListChunks = (list, size) => {
     }
     return chunkArray;
 };
-export const do_Sorting_Pagination_Modification = (productList, sortBy, currentPage) => {
+const do_Sorting_Pagination_Modification = (productList, sortBy, currentPage) => {
     if (productList.length === 0) {
         return {
             list: [],
@@ -37,10 +40,12 @@ export const do_Sorting_Pagination_Modification = (productList, sortBy, currentP
         pageToShow = totalPageNumber - 1;
     }
     const currentPageList = chunkListArray[pageToShow];
-    const modifiedProductList = reduceListDataToCard(currentPageList);
+    const modifiedProductList = (0, reduceListDataToCard_1.reduceListDataToCard)(currentPageList);
     return {
         list: modifiedProductList,
         totalPages: totalPageNumber,
         currentPage: pageToShow + 1,
     };
 };
+exports.do_Sorting_Pagination_Modification = do_Sorting_Pagination_Modification;
+//# sourceMappingURL=dspm.js.map

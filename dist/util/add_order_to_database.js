@@ -1,11 +1,17 @@
-import generateUniqueId from "generate-unique-id";
-import { prisma } from "../prisma/prisma";
-import { Prisma } from "@prisma/client";
-export const add_order_to_database = async (validBody, totalPrice, user) => {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.add_order_to_database = void 0;
+const generate_unique_id_1 = __importDefault(require("generate-unique-id"));
+const prisma_1 = require("../prisma/prisma");
+const client_1 = require("@prisma/client");
+const add_order_to_database = async (validBody, totalPrice, user) => {
     try {
-        let newOrder = await prisma.order.create({
+        let newOrder = await prisma_1.prisma.order.create({
             data: {
-                orderNumber: generateUniqueId({
+                orderNumber: (0, generate_unique_id_1.default)({
                     length: 5,
                 }),
                 email: validBody.email,
@@ -26,11 +32,13 @@ export const add_order_to_database = async (validBody, totalPrice, user) => {
         return newOrder;
     }
     catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error instanceof client_1.Prisma.PrismaClientKnownRequestError) {
             if (error.code === "P2002") {
-                add_order_to_database(validBody, totalPrice, user);
+                (0, exports.add_order_to_database)(validBody, totalPrice, user);
             }
         }
         throw error;
     }
 };
+exports.add_order_to_database = add_order_to_database;
+//# sourceMappingURL=add_order_to_database.js.map
