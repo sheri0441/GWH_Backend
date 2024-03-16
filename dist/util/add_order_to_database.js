@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.add_order_to_database = void 0;
 const generate_unique_id_1 = __importDefault(require("generate-unique-id"));
-const prisma_1 = require("../prisma/prisma");
+const prisma_1 = require("../prisma");
 const client_1 = require("@prisma/client");
 const add_order_to_database = async (validBody, totalPrice, user) => {
     try {

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { parse } from "valibot";
 import { userSchema } from "../validationSchema/user.js";
 import { HttpError } from "../models/http-error.js";
-import { prisma } from "../../prisma/prisma.js";
+import { prisma } from "../prisma.js";
 import { User } from "../interfaces/User.js";
 import { CartItem } from "../interfaces/CartItem.js";
 import { cartSchema } from "../validationSchema/cart.js";

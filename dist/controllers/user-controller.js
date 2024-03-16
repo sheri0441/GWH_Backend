@@ -4,7 +4,7 @@ exports.deleteUser = exports.updateUserCart = exports.userAndCartHandler = void 
 const valibot_1 = require("valibot");
 const user_js_1 = require("../validationSchema/user.js");
 const http_error_js_1 = require("../models/http-error.js");
-const prisma_js_1 = require("../prisma/prisma.js");
+const prisma_js_1 = require("../prisma.js");
 const cart_js_1 = require("../validationSchema/cart.js");
 const auth_js_1 = require("../validationSchema/auth.js");
 const nodemailer_js_1 = require("../util/nodemailer.js");

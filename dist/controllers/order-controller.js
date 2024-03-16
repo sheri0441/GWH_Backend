@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getOrderDetail = exports.stripePaymentStatus = exports.orderCardHandler = exports.orderCashHandler = void 0;
 const valibot_1 = require("valibot");
-const prisma_js_1 = require("../prisma/prisma.js");
+const prisma_js_1 = require("../prisma.js");
 const orderForm_js_1 = require("../validationSchema/orderForm.js");
 const http_error_js_1 = require("../models/http-error.js");
 const nodemailer_js_1 = require("../util/nodemailer.js");

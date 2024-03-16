@@ -1,4 +1,4 @@
-import { prisma } from "../../prisma/prisma";
+import { prisma } from "../prisma";
 
 export const find_user = async (email: string) => {
   try {

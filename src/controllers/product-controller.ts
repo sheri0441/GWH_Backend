@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { HttpError } from "../models/http-error.js";
 import { Product } from "../interfaces/Product.js";
-import { prisma } from "../../prisma/prisma.js";
+import { prisma } from "../prisma.js";
 import { parse } from "valibot";
 import { cartSchema } from "../validationSchema/cart.js";
 import { do_Sorting_Pagination_Modification } from "../util/dspm.js";

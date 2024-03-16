@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.contactHandler = void 0;
-const nodemailer_js_1 = require("../util/nodemailer.js");
+const nodemailer_1 = require("../util/nodemailer");
 const valibot_1 = require("valibot");
 const contact_js_1 = require("../validationSchema/contact.js");
 const http_error_js_1 = require("../models/http-error.js");
-const prisma_js_1 = require("../prisma/prisma.js");
+const prisma_js_1 = require("../prisma.js");
 const responseMessage_1 = require("../email_template/responseMessage");
 const contactHandler = async (req, res, next) => {
     const body = req.body;
@@ -36,7 +36,7 @@ const contactHandler = async (req, res, next) => {
   This website is demo site, but if you want to work with me , feel free to reach out at Sheharyarali689@gmail.com.
   `;
     const mailHTML = (0, responseMessage_1.responseMessage)(body.name);
-    (0, nodemailer_js_1.sendMail)({
+    (0, nodemailer_1.sendMail)({
         to: body.email,
         subject: "no-reply",
         text: mailText,

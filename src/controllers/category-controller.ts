@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { prisma } from "../../prisma/prisma.js";
+import { prisma } from "../prisma.js";
 import { HttpError } from "../models/http-error.js";
 import { category } from "../interfaces/Category.js";
 

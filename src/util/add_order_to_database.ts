@@ -1,7 +1,7 @@
 import generateUniqueId from "generate-unique-id";
 import { OrderValidBody } from "../interfaces/OrderValidBody";
 import { UserPrisma } from "../interfaces/UserPrisma";
-import { prisma } from "../../prisma/prisma";
+import { prisma } from "../prisma";
 import { Prisma } from "@prisma/client";
 
 export const add_order_to_database = async (

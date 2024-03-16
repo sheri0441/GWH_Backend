@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cartProducts = exports.getRecentProduct = exports.getFeaturedProductList = exports.getProductsBySearchForPage = exports.getProductsBySearch = exports.getProductListByCategory = exports.getProductById = exports.getProductList = void 0;
 const http_error_js_1 = require("../models/http-error.js");
-const prisma_js_1 = require("../prisma/prisma.js");
+const prisma_js_1 = require("../prisma.js");
 const valibot_1 = require("valibot");
 const cart_js_1 = require("../validationSchema/cart.js");
 const dspm_js_1 = require("../util/dspm.js");
