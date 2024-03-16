@@ -3,7 +3,7 @@ import { sendMail } from "../util/nodemailer.js";
 import { parse } from "valibot";
 import { contactSchema } from "../validationSchema/contact.js";
 import { HttpError } from "../models/http-error.js";
-import { prisma } from "../prisma/prisma.js";
+import { prisma } from "../../prisma/prisma.js";
 import { responseMessage } from "../email_template/responseMessage";
 
 export const contactHandler = async (

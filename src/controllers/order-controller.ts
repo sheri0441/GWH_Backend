@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { parse } from "valibot";
-import { prisma } from "../prisma/prisma.js";
+import { prisma } from "../../prisma/prisma.js";
 import { Product } from "../interfaces/Product.js";
 import { orderForm } from "../validationSchema/orderForm.js";
 import { HttpError } from "../models/http-error.js";
