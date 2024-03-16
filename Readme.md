@@ -40,6 +40,7 @@ This section lists the environment variables used in the project.
 - `PERSONAL_EMAIL`: The personal email address.
 - `STRIPE_WEBHOOK_SECRET`: The secret key for Stripe webhook.
 - `STRIPE_SECRET_KEY`: The secret key for Stripe API.
+- `PORT`: Specify the port you are running your server.
 
 ## Features
 
