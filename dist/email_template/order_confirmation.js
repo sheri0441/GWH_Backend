@@ -1102,7 +1102,7 @@ const order_confirmation = (orderDetail, products) => {
                                               "
                                             >
                                               <a
-                                                href="${process.env.FRONTEND_URL}/track/${orderDetail.orderNumber}"
+                                                href="${process.env.FRONTEND_URL}/track?order=${orderDetail.orderNumber}"
                                                 class="r24-r default-button"
                                                 target="_blank"
                                                 data-btn="1"
@@ -1484,10 +1484,10 @@ const order_confirmation = (orderDetail, products) => {
                                         word-break: break-word;
                                       "
                                     >
-                                      ${orderDetail.payment}<br />
-                                      ${orderDetail.paymentStatus}<br />
-                                      ${orderDetail.shippingMethod}
-                                      France
+                                      ${orderDetail.payment.toUpperCase()}<br />
+                                      ${orderDetail.paymentStatus.toUpperCase()}<br />
+                                      ${orderDetail.shippingMethod.toUpperCase()}
+                                    
                                     </div>
                                   </div>
                                 </td>

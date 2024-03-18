@@ -1123,7 +1123,7 @@ export const order_confirmation = (
                                               <a
                                                 href="${
                                                   process.env.FRONTEND_URL
-                                                }/track/${
+                                                }/track?order=${
     orderDetail.orderNumber
   }"
                                                 class="r24-r default-button"
@@ -1511,10 +1511,10 @@ export const order_confirmation = (
                                         word-break: break-word;
                                       "
                                     >
-                                      ${orderDetail.payment}<br />
-                                      ${orderDetail.paymentStatus}<br />
-                                      ${orderDetail.shippingMethod}
-                                      France
+                                      ${orderDetail.payment.toUpperCase()}<br />
+                                      ${orderDetail.paymentStatus.toUpperCase()}<br />
+                                      ${orderDetail.shippingMethod.toUpperCase()}
+                                    
                                     </div>
                                   </div>
                                 </td>
