@@ -108,7 +108,7 @@ const getProductsBySearch = async (req, res, next) => {
     try {
         productList = await prisma_1.prisma.product.findMany({
             where: {
-                title: { contains: search },
+                title: { contains: search, mode: "insensitive" },
             },
             take: 5,
         });
@@ -133,7 +133,7 @@ const getProductsBySearchForPage = async (req, res, next) => {
     try {
         productList = await prisma_1.prisma.product.findMany({
             where: {
-                title: { contains: searchText },
+                title: { contains: searchText, mode: "insensitive" },
             },
         });
     }
