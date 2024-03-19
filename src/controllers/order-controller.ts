@@ -1,21 +1,21 @@
 import { Request, Response, NextFunction } from "express";
 import { parse } from "valibot";
-import { prisma } from "../prisma.js";
-import { Product } from "../interfaces/Product.js";
-import { orderForm } from "../validationSchema/orderForm.js";
-import { HttpError } from "../models/http-error.js";
-import { sendMail } from "../util/nodemailer.js";
+import { prisma } from "../prisma";
+import { Product } from "../interfaces/Product";
+import { orderForm } from "../validationSchema/orderForm";
+import { HttpError } from "../models/http-error";
+import { sendMail } from "../util/nodemailer";
 import { order_confirmation } from "../email_template/order_confirmation";
-import { OrderProduct } from "../interfaces/OrderProduct.js";
-import { remove_repeated_products } from "../util/remove_repeated_products.js";
-import { reduce_data_to_orderProducts } from "../util/reduce_data_to_orderProducts.js";
-import { UserPrisma } from "../interfaces/UserPrisma.js";
-import { add_order_to_database } from "../util/add_order_to_database.js";
-import { calculate_orderProducts_total_price } from "../util/calculate_orderProducts_total_price.js";
-import { find_user } from "../util/find_user.js";
-import { get_productList_id } from "../util/get_productList_id.js";
+import { OrderProduct } from "../interfaces/OrderProduct";
+import { remove_repeated_products } from "../util/remove_repeated_products";
+import { reduce_data_to_orderProducts } from "../util/reduce_data_to_orderProducts";
+import { UserPrisma } from "../interfaces/UserPrisma";
+import { add_order_to_database } from "../util/add_order_to_database";
+import { calculate_orderProducts_total_price } from "../util/calculate_orderProducts_total_price";
+import { find_user } from "../util/find_user";
+import { get_productList_id } from "../util/get_productList_id";
 import Stripe from "stripe";
-import { CartItem } from "../interfaces/CartItem.js";
+import { CartItem } from "../interfaces/CartItem";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export const orderCashHandler = async (

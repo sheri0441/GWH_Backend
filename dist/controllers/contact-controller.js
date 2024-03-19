@@ -3,22 +3,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.contactHandler = void 0;
 const nodemailer_1 = require("../util/nodemailer");
 const valibot_1 = require("valibot");
-const contact_js_1 = require("../validationSchema/contact.js");
-const http_error_js_1 = require("../models/http-error.js");
-const prisma_js_1 = require("../prisma.js");
+const contact_1 = require("../validationSchema/contact");
+const http_error_1 = require("../models/http-error");
+const prisma_1 = require("../prisma");
 const responseMessage_1 = require("../email_template/responseMessage");
 const contactHandler = async (req, res, next) => {
     const body = req.body;
     let validBody;
     try {
-        validBody = (0, valibot_1.parse)(contact_js_1.contactSchema, body);
+        validBody = (0, valibot_1.parse)(contact_1.contactSchema, body);
     }
     catch (error) {
-        next(new http_error_js_1.HttpError("There is some validation error.", 422));
+        next(new http_error_1.HttpError("There is some validation error.", 422));
         return;
     }
     try {
-        await prisma_js_1.prisma.contact.create({
+        await prisma_1.prisma.contact.create({
             data: {
                 name: body.name,
                 email: body.email,
@@ -28,7 +28,7 @@ const contactHandler = async (req, res, next) => {
     }
     catch (error) {
         console.log(error);
-        next(new http_error_js_1.HttpError("There is internal issue.", 422));
+        next(new http_error_1.HttpError("There is internal issue.", 422));
         return;
     }
     const mailText = `In case, you are unable to see HTML mail. Here is text.

@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { sendMail } from "../util/nodemailer";
 import { parse } from "valibot";
-import { contactSchema } from "../validationSchema/contact.js";
-import { HttpError } from "../models/http-error.js";
-import { prisma } from "../prisma.js";
+import { contactSchema } from "../validationSchema/contact";
+import { HttpError } from "../models/http-error";
+import { prisma } from "../prisma";
 import { responseMessage } from "../email_template/responseMessage";
 
 export const contactHandler = async (
