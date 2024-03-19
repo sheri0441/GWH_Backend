@@ -113,7 +113,7 @@ const updateUserCart = async (req, res, next) => {
         next(new http_error_1.HttpError("There is some server internal error", 422));
         return;
     }
-    res.json(validCartList).status(201);
+    res.json(validCartList);
 };
 exports.updateUserCart = updateUserCart;
 const deleteUser = async (req, res, next) => {
