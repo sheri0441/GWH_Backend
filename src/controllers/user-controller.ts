@@ -136,7 +136,7 @@ export const updateUserCart = async (
     return;
   }
 
-  res.json(validCartList);
+  res.json(validCartList).status(201);
 };
 
 export const deleteUser = async (
