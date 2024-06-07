@@ -54,4 +54,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
 const port = process.env.PORT || 3000;
 
-app.listen(port);
+app.listen(port, () => {
+  setInterval(() => {
+    console.log("server is still working");
+  }, 60000);
+});
