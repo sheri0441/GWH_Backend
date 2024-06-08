@@ -40,5 +40,9 @@ app.use((err, req, res, next) => {
     res.json({ message: err.message || "An unknown err occurred" });
 });
 const port = process.env.PORT || 3000;
-app.listen(port);
+app.listen(port, () => {
+    setInterval(() => {
+        console.log("server is working");
+    }, 60000);
+});
 //# sourceMappingURL=server.js.map

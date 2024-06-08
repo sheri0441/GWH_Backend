@@ -56,6 +56,6 @@ const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   setInterval(() => {
-    console.log("server is still working");
+    console.log("server is working");
   }, 60000);
 });
