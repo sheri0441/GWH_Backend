@@ -55,7 +55,9 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
-  setInterval(() => {
-    console.log("server is working");
+  setInterval(async () => {
+    const data = await fetch("https://gwh-backend.onrender.com");
+    const result = await data.json();
+    console.log(result);
   }, 60000);
 });
