@@ -8,6 +8,7 @@ This is backend of my E-commerce Website. The website built with React on fronte
   - [Table of Contents](#table-of-contents)
   - [About](#about)
   - [Installation](#installation)
+  - [TypeScript Command](#typescript-command)
   - [Environment Variables](#environment-variables)
   - [Features](#features)
   - [API Documentation](#api-documentation)
@@ -24,6 +25,20 @@ To install the backend, you need to have Node and npm installed on your machine.
 ```bash
 npm install
 ```
+
+## TypeScript Command
+
+```bash
+tsc --watch
+```
+
+for watch changes in ts file
+
+```bash
+tsc --build
+```
+
+for build ts file to js file
 
 ## Environment Variables
 
